@@ -3,228 +3,277 @@
   <head>
     <meta charset="utf-8">
     <title>Does one simply Divshot?</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/github-markdown-css/0.2.0/github-markdown.min.css" media="screen" title="no title" charset="utf-8">
+
+    <style media="screen">
+      body {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
   </head>
   <body>
+    <div  class="markdown-body">
 
-    <h1>What is Divshot</h1>
+      <section>
+        <h1>What is Divshot</h1>
 
-    <p>
-      <a href="https://divshot.com/">Divshot</a> define themselves as "Static Web Hosting for Developers" with the tagline "Blazing fast CDN, simple CLI deployment, hassle-free test environments. And much more.". Personally I think of it as Heroku for static web apps.
-    </p>
+        <p>
+          <a href="https://divshot.com/">Divshot</a> define themselves as "Static Web Hosting for Developers" with the tagline "Blazing fast CDN, simple CLI deployment, hassle-free test environments. And much more.". Personally I think of it as Heroku for static web apps.
+        </p>
 
-    <p>
-      For me, what makes life easier with Divshot, is that it's easy to setup (GitHub auth and free tier), easy to integrate with CI (Travis support and environments), and extra services (ajax proxy, email, prerenders). Of course it's not for everything, but if you just want to get some simple app or prototype running somewhere, without having to worry too much about deployment and hosting, then it's kind of nice.
-    </p>
+        <p>
+          For me, what makes life easier with Divshot, is that it's easy to setup (GitHub auth and free tier), easy to integrate with CI (Travis support and environments), and extra services (ajax proxy, email, prerenders). Of course it's not for everything, but if you just want to get some simple app or prototype running somewhere, without having to worry too much about deployment and hosting, then it's kind of nice.
+        </p>
+      </section>
 
-    <h1>About this site</h1>
 
-    <p>
-      This site itself is hosted on Divshot, and provides some examples on the features provided by the service
 
-      <ul>
-        <li>Code is available on GitHub at <a href="https://github.com/aeirola/divshot-demo">https://github.com/aeirola/divshot-demo</a></li>
-        <li>Travis CI build is visible at <a href="https://travis-ci.org/aeirola/divshot-demo">https://travis-ci.org/aeirola/divshot-demo</a></li>
-        <li>Dev deployment is at <a href="http://development.divshot-demo.divshot.io/">http://development.divshot-demo.divshot.io/</a></li>
-        <li>Production deployment at <a href="https://divshot-demo.divshot.io/">https://divshot-demo.divshot.io/</a></li>
-      </ul>
+      <section>
+        <h1>About this site</h1>
 
-    </p>
+        <p>
+          This site itself is hosted on Divshot, and provides some examples on the features provided by the service
 
-    <h1>Setup</h1>
+          <ul>
+            <li>Code is available on GitHub at <a href="https://github.com/aeirola/divshot-demo">https://github.com/aeirola/divshot-demo</a></li>
+            <li>Travis CI build is visible at <a href="https://travis-ci.org/aeirola/divshot-demo">https://travis-ci.org/aeirola/divshot-demo</a></li>
+            <li>Dev deployment is at <a href="http://development.divshot-demo.divshot.io/">http://development.divshot-demo.divshot.io/</a></li>
+            <li>Production deployment at <a href="https://divshot-demo.divshot.io/">https://divshot-demo.divshot.io/</a></li>
+          </ul>
 
-    <h2>Tools and environment</h2>
+        </p>
+      </section>
 
-    <pre>
-      npm install -g divshot-cli
-      divshot login
-    </pre>
 
 
-    <h2>Repo setup</h2>
+      <section>
+        <h1>Setup</h1>
 
-    <h3>Adding <code>divshot.json</code></h3>
-    <p>
+        <h2>Tools and environment</h2>
 
-      <pre>
-        divshot init
-      </pre>
+        <pre><code class="language-bash">
+          npm install -g divshot-cli
+          divshot login
+        </code></pre>
 
-    </p>
 
+        <h2>Repo setup</h2>
 
-    <h3> Travis CI setup</h3>
+        <h3>Adding <code>divshot.json</code></h3>
+        <p>
 
-    <pre>
-      touch .travis.yml
-      divshot auth:token
-      travis setup divshot
-    </pre>
+          <pre><code class="language-bash">
+            divshot init
+          </code></pre>
 
-    <p>
-      If you have some build steps you'll want to add <code>skip_cleanup: true</code> to the deployment section of the config.
-    </p>
+        </p>
 
-    <p>
-      If you want per-branch environments, you can do something like:
 
-      <pre>
-        environment:
-          master: development
-          staging: staging
-          production: production
-      </pre>
+        <h3> Travis CI setup</h3>
 
-      in the deployment section of <code>.travis.yml</code>
-    </p>
+        <pre><code class="language-bash">
+          touch .travis.yml
+          divshot auth:token
+          travis setup divshot
+        </code></pre>
 
-    <h1>Deployment</h1>
+        <p>
+          If you have some build steps you'll want to add <code>skip_cleanup: true</code> to the deployment section of the config.
+        </p>
 
-    <h2>Local deployment</h2>
+        <p>
+          If you want per-branch environments, you can do something like:
 
-    <pre>
-      divshot server
-      open http://localhost:3474
-    </pre>
+          <pre><code class="language-yaml">
+            environment:
+              master: development
+              staging: staging
+              production: production
+          </code></pre>
 
-    <p>
-      This runs a local development server with configuration taken from <code>divshot.json</code>. So root paths and URL cleanups and such work in the same way as in production.
-    </p>
+          in the deployment section of <code>.travis.yml</code>
+        </p>
+      </section>
 
-    <p>
-      Note that in order to use the API services, such as AJAX proxy and email, you need to isntall dependencies and specify them separately in commandline arguments.
-    </p>
 
-    <h2>Deploying to Divshot</h2>
 
-    <pre>
-      divshot deploy development
-      open http://development.divshot-demo.divshot.io/
-    </pre>
+      <section>
 
-    <p>
-      This only pushes files under the <code>root</code> directory defined in <code>divshot.json</code>, with additional excludes possible. So no need to worry about pushing large amounts of dependencies or temporary files to the server.
-    </p>
+        <h1>Deployment</h1>
 
+        <h2>Local deployment</h2>
 
-    <h1>Cool features</h1>
+        <pre><code class="language-bash">
+          divshot server
+          open http://localhost:3474
+        </code></pre>
 
+        <p>
+          This runs a local development server with configuration taken from <code>divshot.json</code>. So root paths and URL cleanups and such work in the same way as in production.
+        </p>
 
-    <h2>Custom routing</h2>
+        <p>
+          Note that in order to use the API services, such as AJAX proxy and email, you need to isntall dependencies and specify them separately in commandline arguments.
+        </p>
 
-    <p>
-      You can point multiple paths to a single file, by specifying routes in <code>divshot.json</code>. This page only has a single file, so we can just route every url to the same file with:
-    </p>
+        <h2>Deploying to Divshot</h2>
 
-    <pre>
-      "routes": {
-        "/**": "index.html"
-      }
-    </pre>
+        <pre><code class="language-bash">
+          divshot deploy development
+          open http://development.divshot-demo.divshot.io/
+        </code></pre>
 
-    <p>
-      So now a link to <a href="/no-way-this-page-exsists">/no-way-this-page-exsists</a> serves this same page.
-    </p>
+        <p>
+          This only pushes files under the <code>root</code> directory defined in <code>divshot.json</code>, with additional excludes possible. So no need to worry about pushing large amounts of dependencies or temporary files to the server.
+        </p>
+      </section>
 
-    <p>
-      Of course we could just have user <code>error.html</code> for this trick. For more info on custom routings check out <a href="https://docs.divshot.com/guides/routing">https://docs.divshot.com/guides/routing</a>.
-    </p>
 
 
-    <h2>AJAX Proxy</h2>
+      <section>
 
-    <p>
-      Divshot provides a nice AJAX proxy for connection to public APIs that for some reason don't provide CORS headers. Configure your proxy address in <code>divshot.json</code> and connect to the proxy at the path <code>/__/proxy/{$NAME/{$PATH}</code>.
-    </p>
 
-    <p>
-      Note, if you want to run the proxy on your local dev server, you need to do
-    </p>
+        <h1>Cool features</h1>
 
-    <pre>
-      npm install superstatic-proxy
-      divshot server --services proxy
-    </pre>
 
-    <h3>Example: Fetching data for road temperatures</h3>
+        <h2>Custom routing</h2>
 
-    <p>
-      Foreca provides some realtime data on road weather conditions through a public API at <code><a href="http://tie.digitraffic.fi/sujuvuus/ws/roadConditions">http://tie.digitraffic.fi/sujuvuus/ws/roadConditions</a></code>, unfortunately we can't connect to it directly from the browser, due to same-origin policy.
-    </p>
+        <p>
+          You can point multiple paths to a single file, by specifying routes in <code>divshot.json</code>. This page only has a single file, so we can just route every url to the same file with:
+        </p>
 
-    <p>
-      Adding the following proxy config to <code>divshot.json</code>, and we can access the API at <code><a href="/__/proxy/digitraffic/sujuvuus/ws/roadConditions">/__/proxy/digitraffic/sujuvuus/ws/roadConditions</a></code>
-    </p>
+        <pre><code class="language-javascript">
+          {
+            "routes": {
+              "/**": "index.html"
+            }
+          }
+        </code></pre>
 
-    <pre>
-      "proxy": {
-        "digitraffic": {
-          "origin":"http://tie.digitraffic.fi/",
-          "cookies": false
-        }
-      }
-    </pre>
+        <p>
+          So now a link to <a href="/no-way-this-page-exsists">/no-way-this-page-exsists</a> serves this same page.
+        </p>
 
-    <p>
-      Thus, we can now do something as awesome as this:
-    </p>
+        <p>
+          Of course we could just have user <code>error.html</code> for this trick. For more info on custom routings check out <a href="https://docs.divshot.com/guides/routing">https://docs.divshot.com/guides/routing</a>.
+        </p>
 
-    <p>Road temperature somewhere is <span id="roadTempSpan"> ... </span></p>
 
-    <script type="text/javascript">
-      var apiUrl = 'http://tie.digitraffic.fi/sujuvuus/ws/roadConditions';
-      apiUrl = '/__/proxy/digitraffic/sujuvuus/ws/roadConditions';
+        <h2>AJAX Proxy</h2>
 
-      httpRequest = new XMLHttpRequest();
-      httpRequest.onreadystatechange = function(event) {
-        if (httpRequest.readyState !== 4) {
-          return;
-        }
+        <p>
+          Divshot provides a nice AJAX proxy for connection to public APIs that for some reason don't provide CORS headers. Configure your proxy address in <code>divshot.json</code> and connect to the proxy at the path <code>/__/proxy/{$NAME/{$PATH}</code>.
+        </p>
 
-        var response = event.target.responseXML;
-        var conditionElement = response.querySelector('observationElement conditionElement');
-        var roadTemp = conditionElement.getAttribute('roadTemperature');
-        document.getElementById('roadTempSpan').innerHTML = roadTemp;
-      };
-      httpRequest.open('GET', apiUrl);
-      httpRequest.send();
-    </script>
+        <p>
+          Note, if you want to run the proxy on your local dev server, you need to do
+        </p>
 
+        <pre><code class="language-bash">
+          npm install superstatic-proxy
+          divshot server --services proxy
+        </code></pre>
 
-    <h2>Email sending</h2>
+        <h3>Example: Fetching data for road temperatures</h3>
 
-    Divshot also provides an email sending service for simple contact forms and such.
+        <p>
+          Foreca provides some realtime data on road weather conditions through a public API at <code><a href="http://tie.digitraffic.fi/sujuvuus/ws/roadConditions">http://tie.digitraffic.fi/sujuvuus/ws/roadConditions</a></code>, unfortunately we can't connect to it directly from the browser, due to same-origin policy.
+        </p>
 
-    <h3>Example</h3>
+        <p>
+          Adding the following proxy config to <code>divshot.json</code>, and we can access the API at <code><a href="/__/proxy/digitraffic/sujuvuus/ws/roadConditions">/__/proxy/digitraffic/sujuvuus/ws/roadConditions</a></code>
+        </p>
 
-    <form method="POST" action="/__/forms/contact">
-        <label>Name:</label> <input type="text" name="name">
-        <label>Greetings:</label> <input type="text" name="greetings">
-        <button type="submit">Send</button>
-    </form>
+        <pre><code class="language-javascript">
+          {
+            "proxy": {
+              "digitraffic": {
+                "origin":"http://tie.digitraffic.fi/",
+                "cookies": false
+              }
+            }
+          }
+        </code></pre>
 
-    <p>
-      Note: To use this on local development you need to do
-    </p>
+        <p>
+          Thus, we can now do something as awesome as this:
+        </p>
 
-    <pre>
-      npm install superstatic-forms
-      divshot server --services proxy,forms
-    </pre>
+        <blockquote>
 
+          <p>Road temperature somewhere is <span id="roadTempSpan"> ... </span></p>
 
-    <h1>Techincal information</h1>
+          <script type="text/javascript">
+            var apiUrl = 'http://tie.digitraffic.fi/sujuvuus/ws/roadConditions';
+            apiUrl = '/__/proxy/digitraffic/sujuvuus/ws/roadConditions';
 
-    <h2>Hosting</h2>
+            httpRequest = new XMLHttpRequest();
+            httpRequest.onreadystatechange = function(event) {
+              if (httpRequest.readyState !== 4) {
+                return;
+              }
 
-    Currently Divshot apps are hosted on AWS Elastic Beanstalk instances, with MaxCDN providing a CDN for all static files.
+              var response = event.target.responseXML;
+              var conditionElement = response.querySelector('observationElement conditionElement');
+              var roadTemp = conditionElement.getAttribute('roadTemperature');
+              document.getElementById('roadTempSpan').innerHTML = roadTemp;
+            };
+            httpRequest.open('GET', apiUrl);
+            httpRequest.send();
+          </script>
 
+        </blockquote>
 
-    <h2>Server</h2>
 
-    <p>
-      Divshot pages are served by <a href="https://github.com/divshot/superstatic">superstatic</a>, which is a custom server for serving Divshot apps. Implemented in node.js using Express, providing basic features such as routing. Additional features are added as modular services, such as ajax proxy and email sending.
-    </p>
+        <h2>Email sending</h2>
 
+        Divshot also provides an email sending service for simple contact forms and such.
 
+        <h3>Example</h3>
+
+        <blockquote>
+          <form method="POST" action="/__/forms/contact">
+            <dl>
+              <dt><label for="name">Name:</label></dt>
+              <dd><input type="text" name="name" id="name"></dd>
+
+              <dt><label for="greetings">Greetings:</label></dt>
+              <dd><input type="text" name="greetings" id="greetings"></dd>
+            </dl>
+            <button type="submit">Send</button>
+          </form>
+        </blockquote>
+
+        <p>
+          Note: To use this on local development you need to do
+        </p>
+
+        <pre><code class="language-bash">
+          npm install superstatic-forms
+          divshot server --services proxy,forms
+        </code></pre>
+      </section>
+
+
+
+      <section>
+        <h1>Techincal information</h1>
+
+        <h2>Hosting</h2>
+
+        Currently Divshot apps are hosted on AWS Elastic Beanstalk instances, with MaxCDN providing a CDN for all static files.
+
+
+        <h2>Server</h2>
+
+        <p>
+          Divshot pages are served by <a href="https://github.com/divshot/superstatic">superstatic</a>, which is a custom server for serving Divshot apps. Implemented in node.js using Express, providing basic features such as routing. Additional features are added as modular services, such as ajax proxy and email sending.
+        </p>
+      </section>
+
+    </div>
   </body>
 </html>

@@ -11,5 +11,16 @@
       "origin":"http://tie.digitraffic.fi/",
       "cookies": false
     }
+  },
+  "forms": {
+    "contact": {
+      "to": "axel.eirola@futurice.com",
+      "from": "www-weeklies@futurice.com",
+      "subject": "Greetings from {{name}}",
+      "html": "<b>{{name}}:</b> {{greetings}}",
+      "text": "{{name}} says {{greetings}}",
+      "success": "/contact-received",
+      "failure": "/contact-failure"
+    }
   }
 }

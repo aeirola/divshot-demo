@@ -164,5 +164,27 @@
     </script>
 
 
+    <h2>Email sending</h2>
+
+    Divshot also provides an email sending service for simple contact forms and such.
+
+    <h3>Example</h3>
+
+    <form method="POST" action="/__/forms/contact">
+        <label>Name:</label> <input type="text" name="name">
+        <label>Greetings:</label> <input type="text" name="greetings">
+        <button type="submit">Send</button>
+    </form>
+
+    <p>
+      Note: To use this on local development you need to do
+    </p>
+
+    <pre>
+      npm install superstatic-forms
+      divshot server --services proxy,forms
+    </pre>
+
+
   </body>
 </html>

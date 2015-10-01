@@ -6,7 +6,9 @@
   </head>
   <body>
 
-    <h1>Env setup</h1>
+    <h1>Setup</h1>
+
+    <h2>Tools and environment</h2>
 
     <pre>
       npm install -g divshot-cli
@@ -14,9 +16,9 @@
     </pre>
 
 
-    <h1>Repo setup</h1>
+    <h2>Repo setup</h2>
 
-    <h2>Adding <code>divshot.json</code></h2>
+    <h3>Adding <code>divshot.json</code></h3>
     <p>
 
       <pre>
@@ -26,7 +28,7 @@
     </p>
 
 
-    <h2> Travis CI setup</h2>
+    <h3> Travis CI setup</h3>
 
     <pre>
       touch .travis.yml
@@ -53,7 +55,22 @@
 
     <h1>Deployment</h1>
 
-    <h2>Deploying to development</h2>
+    <h2>Local deployment</h2>
+
+    <pre>
+      divshot server
+      open http://localhost:3474
+    </pre>
+
+    <p>
+      This runs a local development server with configuration taken from <code>divshot.json</code>. So root paths and URL cleanups and such work in the same way as in production.
+    </p>
+
+    <p>
+      Note that in order to use the API services, such as AJAX proxy and email, you need to isntall dependencies and specify them separately in commandline arguments.
+    </p>
+
+    <h2>Deploying to Divshot</h2>
 
     <pre>
       divshot deploy development

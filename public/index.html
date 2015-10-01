@@ -24,6 +24,28 @@
           <a href="https://divshot.com/">Divshot</a> define themselves as "Static Web Hosting for Developers" with the tagline "Blazing fast CDN, simple CLI deployment, hassle-free test environments. And much more.". Personally I think of it as Heroku for static web apps.
         </p>
 
+        <h3>So why not GitHub pages / AWS S3 / whatever?</h3>
+
+        <ul>
+          <li>Server side services such as AJAX proxy, email sending, seo prerender</li>
+          <li>Fast CDN, at lest compared to GitHub pages</li>
+          <li>Simple integration with TravisCI and others</li>
+        </ul>
+
+        <h3>So why not Heroku / Elastic Beanstalk / EC3?</h3>
+
+        <ul>
+          <li>Cheaper, starting with free tier</li>
+          <li>Faster, with almost instant depoys and lots of CDN</li>
+          <li>Simpler, with no server side setups or configs</li>
+        </ul>
+
+        <h3>So what do you do with it?</h3>
+
+        <p>
+          It sits nicely between completely static file hosting like GitHub pages or AWS S3, and full blown web application servers such as Heroku and EC2. If you just want to build some simple web or prototypes that accesses a 3rd party APIs (that doesn't support CORS), then it's really quite handy.
+        </p>
+
         <p>
           For me, what makes life easier with Divshot, is that it's easy to setup (GitHub auth and free tier), easy to integrate with CI (Travis support and environments), and extra services (ajax proxy, email, prerenders). Of course it's not for everything, but if you just want to get some simple app or prototype running somewhere, without having to worry too much about deployment and hosting, then it's kind of nice.
         </p>
@@ -39,11 +61,11 @@
         </p>
 
         <ul>
-          <li>Code is available on GitHub at
+          <li>Source code is available on GitHub at
               <a href="https://github.com/aeirola/divshot-demo">https://github.com/aeirola/divshot-demo</a></li>
           <li>Travis CI build is visible at
               <a href="https://travis-ci.org/aeirola/divshot-demo">https://travis-ci.org/aeirola/divshot-demo</a></li>
-          <li>Dev deployment is at
+          <li>Dev deployment hosted at
               <a href="http://development.divshot-demo.divshot.io/">http://development.divshot-demo.divshot.io/</a></li>
           <li>Production deployment at
               <a href="https://divshot-demo.divshot.io/">https://divshot-demo.divshot.io/</a></li>
@@ -57,6 +79,10 @@
 
         <h2>Tools and environment</h2>
 
+        <p>
+          You'll want to install and authenticate the divshot CLI tool to easily push releases to production, or just run them locally.
+        </p>
+
         <pre><code class="language-bash">
           npm install -g divshot-cli
           divshot login
@@ -65,22 +91,60 @@
 
         <h2>Repo setup</h2>
 
-        <h3>Adding <code>divshot.json</code></h3>
+        <h3>Configuring Divshot</h3>
+
+        <p>
+          To be able to deploy the application to Divshot, you need a <code>divshot.json</code> config file that specifies the application name, and some hosting configurations. Running
+        </p>
 
         <pre><code class="language-bash">
           divshot init
         </code></pre>
 
+        <p>
+          generates a file that looks like the following
+        </p>
+
+        <pre><code class="language-json">
+          {
+            "name": "divshot-demo",
+            "root": "public",
+            "clean_urls": true,
+            "error_page": "error.html"
+          }
+        </code></pre>
+
+        <p>
+          More configuration options available in <a href="https://docs.divshot.com/guides/configuration">documentation</a>.
+        </p>
+
+
+
         <h3> Travis CI setup</h3>
 
+        <p>
+          You can have Travis CI deploy your successful builds to Divshot by defining the deploy task in a <code>.travis.yml</code>. Start of with some simple <code>.travis.yml</code> config file:
+        </p>
+
         <pre><code class="language-bash">
-          touch .travis.yml
+          language: node_js
+          node_js:
+          - '0.10'
+          install: true
+          script: echo Gruntifying really hard!
+        </code></pre>
+
+        <p>
+          Get your dishot auth token (you logged in previously, right?), and feed that to the <code>travis</code> CLI tool, which will encrypt it for you.
+        </p>
+
+        <pre><code class="language-bash">
           divshot auth:token
           travis setup divshot
         </code></pre>
 
         <p>
-          If you have some build steps you'll want to add <code>skip_cleanup: true</code> to the deployment section of the config.
+          If you have some build steps you'll want to add <code>skip_cleanup: true</code> to the deployment section of the config. Otherwise travis will clean the workspace up before deployment.
         </p>
 
         <p>
@@ -94,6 +158,11 @@
               staging: staging
               production: production
         </code></pre>
+
+        <p>
+          <em>Documentation for <a href="http://docs.travis-ci.com/user/deployment/divshot/">Travis</a> and for <a href="https://docs.divshot.com/integrations/travis">Divshot</a></em>
+        </p>
+
       </section>
 
 
@@ -102,7 +171,7 @@
 
         <h1>Deployment</h1>
 
-        <h2>Local deployment</h2>
+        <h2>Local development server</h2>
 
         <pre><code class="language-bash">
           divshot server
@@ -110,14 +179,22 @@
         </code></pre>
 
         <p>
-          This runs a local development server with configuration taken from <code>divshot.json</code>. So root paths and URL cleanups and such work in the same way as in production.
+          This runs a local development server with configuration taken from <code>divshot.json</code>, with routing working in the same way as in production.
         </p>
 
         <p>
-          Note that in order to use the API services, such as AJAX proxy and email, you need to isntall dependencies and specify them separately in commandline arguments.
+          Note that in order to use the extra API services, such as AJAX proxy and email, you need to install dependencies and specify them separately in commandline arguments.
         </p>
 
         <h2>Deploying to Divshot</h2>
+
+        <p>
+          Personally, I prefer to have Travis (or some other CI) perform all deployment tasks, but you can also deploy manually to the different envrionments. This is mostly useful if you are very impatient, or try to debug some weird behaviour on the hosting side.
+        </p>
+
+        <p>
+          Deploying to development environment looks like this:
+        </p>
 
         <pre><code class="language-bash">
           divshot deploy development
@@ -127,15 +204,26 @@
         <p>
           This only pushes files under the <code>root</code> directory defined in <code>divshot.json</code>, with additional excludes possible. So no need to worry about pushing large amounts of dependencies or temporary files to the server.
         </p>
+
+        <h3>Environments</h3>
+
+        <h4>Development / Staging</h4>
+
+        <p>
+          Low performance environments with support for HTTP basic auth.
+        </p>
+
+        <h4>Production</h4>
+
+        <p>
+          High performance environment with CDN, SSL and custom domains.
+        </p>
       </section>
 
 
 
       <section>
-
-
         <h1>Cool features</h1>
-
 
         <h2>Custom routing</h2>
 
@@ -143,7 +231,7 @@
           You can point multiple paths to a single file, by specifying routes in <code>divshot.json</code>. This page only has a single file, so we can just route every url to the same file with:
         </p>
 
-        <pre><code class="language-javascript">
+        <pre><code class="language-json">
           {
             "routes": {
               "/**": "index.html"
@@ -156,7 +244,7 @@
         </p>
 
         <p>
-          Of course we could just have user <code>error.html</code> for this trick. For more info on custom routings check out <a href="https://docs.divshot.com/guides/routing">https://docs.divshot.com/guides/routing</a>.
+          Of course we could just have used <code>error.html</code> for this trick. For more info on custom routings check out <a href="https://docs.divshot.com/guides/routing">https://docs.divshot.com/guides/routing</a>.
         </p>
 
 
@@ -175,6 +263,11 @@
           divshot server --services proxy
         </code></pre>
 
+        <p>
+          <em><a href="https://docs.divshot.com/services/proxy">Documentation</a></em>
+        </p>
+
+
         <h3>Example: Fetching data for road temperatures</h3>
 
         <p>
@@ -185,7 +278,7 @@
           Adding the following proxy config to <code>divshot.json</code>, and we can access the API at <code><a href="/__/proxy/digitraffic/sujuvuus/ws/roadConditions">/__/proxy/digitraffic/sujuvuus/ws/roadConditions</a></code>
         </p>
 
-        <pre><code class="language-javascript">
+        <pre><code class="language-json">
           {
             "proxy": {
               "digitraffic": {
@@ -230,6 +323,10 @@
 
         Divshot also provides an email sending service for simple contact forms and such.
 
+        <p>
+          <em><a href="https://docs.divshot.com/services/forms">Documentation</a></em>
+        </p>
+
         <h3>Example</h3>
 
         <blockquote>
@@ -246,7 +343,7 @@
         </blockquote>
 
         <p>
-          Note: To use this on local development you need to do
+          Note: To use this on local development you need to specify the <code>--services forms</code> commandline argument. Combined with proxying, it looks like this:
         </p>
 
         <pre><code class="language-bash">
@@ -255,10 +352,14 @@
         </code></pre>
 
 
-        <h2><a href="https://docs.divshot.com/guides/environment-variables">Environment variables</a></h2>
+        <h2>Environment variables</h2>
 
         <p>
           Divshot also supports environment variables which are injected through a JavaScript file served at <code>/__/env.js</code>. Alternatively, they are available as JSON at <code>/__/env.json</code>. These environment variables are user defined, and also contain build information. Could be useful for configuring API endpoints and such.
+        </p>
+
+        <p>
+          <em><a href="https://docs.divshot.com/guides/environment-variables">Documentation</a></em>
         </p>
 
         <h3>Example</h3>
@@ -300,13 +401,15 @@
 
         <h2>Hosting</h2>
 
-        Currently Divshot apps are hosted on AWS Elastic Beanstalk instances, with MaxCDN providing a CDN for all static files.
+        <p>
+          Currently Divshot apps are hosted on AWS <a href="http://aws.amazon.com/documentation/elastic-beanstalk/">Elastic Beanstalk</a> instances, with <a href="https://www.maxcdn.com/">MaxCDN</a> providing a CDN for all files.
+        </p>
 
 
         <h2>Server</h2>
 
         <p>
-          Divshot pages are served by <a href="https://github.com/divshot/superstatic">superstatic</a>, which is a custom server for serving Divshot apps. Implemented in node.js using Express, providing basic features such as routing. Additional features are added as modular services, such as ajax proxy and email sending.
+          Divshot pages are served by <a href="http://superstatic.org/">superstatic</a>, which is a custom open source server for serving Divshot apps. Implemented in node.js using Express, providing basic features such as routing. Additional features are added as modular services, such as <a href="https://github.com/divshot/superstatic-proxy">ajax proxy</a> and <a href="https://github.com/divshot/superstatic-forms">email sending</a>.
         </p>
       </section>
 

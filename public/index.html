@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Does one simply Divshot?</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/github-markdown-css/0.2.0/github-markdown.min.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/github-markdown-css/0.2.0/github-markdown.min.css">
 
     <style media="screen">
       body {
@@ -15,7 +15,7 @@
     </style>
   </head>
   <body>
-    <div  class="markdown-body">
+    <div class="markdown-body">
 
       <section>
         <h1>What is Divshot</h1>
@@ -36,15 +36,18 @@
 
         <p>
           This site itself is hosted on Divshot, and provides some examples on the features provided by the service
-
-          <ul>
-            <li>Code is available on GitHub at <a href="https://github.com/aeirola/divshot-demo">https://github.com/aeirola/divshot-demo</a></li>
-            <li>Travis CI build is visible at <a href="https://travis-ci.org/aeirola/divshot-demo">https://travis-ci.org/aeirola/divshot-demo</a></li>
-            <li>Dev deployment is at <a href="http://development.divshot-demo.divshot.io/">http://development.divshot-demo.divshot.io/</a></li>
-            <li>Production deployment at <a href="https://divshot-demo.divshot.io/">https://divshot-demo.divshot.io/</a></li>
-          </ul>
-
         </p>
+
+        <ul>
+          <li>Code is available on GitHub at
+              <a href="https://github.com/aeirola/divshot-demo">https://github.com/aeirola/divshot-demo</a></li>
+          <li>Travis CI build is visible at
+              <a href="https://travis-ci.org/aeirola/divshot-demo">https://travis-ci.org/aeirola/divshot-demo</a></li>
+          <li>Dev deployment is at
+              <a href="http://development.divshot-demo.divshot.io/">http://development.divshot-demo.divshot.io/</a></li>
+          <li>Production deployment at
+              <a href="https://divshot-demo.divshot.io/">https://divshot-demo.divshot.io/</a></li>
+        </ul>
       </section>
 
 
@@ -63,14 +66,10 @@
         <h2>Repo setup</h2>
 
         <h3>Adding <code>divshot.json</code></h3>
-        <p>
 
-          <pre><code class="language-bash">
-            divshot init
-          </code></pre>
-
-        </p>
-
+        <pre><code class="language-bash">
+          divshot init
+        </code></pre>
 
         <h3> Travis CI setup</h3>
 
@@ -85,17 +84,16 @@
         </p>
 
         <p>
-          If you want per-branch environments, you can do something like:
+          If you want per-branch environments, you can add the following to <code>.travis.yml</code>
+        </p>
 
-          <pre><code class="language-yaml">
+        <pre><code class="language-yaml">
+          deploy:
             environment:
               master: development
               staging: staging
               production: production
-          </code></pre>
-
-          in the deployment section of <code>.travis.yml</code>
-        </p>
+        </code></pre>
       </section>
 
 

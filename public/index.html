@@ -26,6 +26,31 @@
     </p>
 
 
+    <h2> Travis CI setup</h2>
+
+    <pre>
+      touch .travis.yml
+      divshot auth:token
+      travis setup divshot
+    </pre>
+
+    <p>
+      If you have some build steps you'll want to add <code>skip_cleanup: true</code> to the deployment section of the config.
+    </p>
+
+    <p>
+      If you want per-branch environments, you can do something like:
+
+      <pre>
+        environment:
+          master: development
+          staging: staging
+          production: production
+      </pre>
+
+      in the deployment section of <code>.travis.yml</code>
+    </p>
+
     <h1>Deployment</h1>
 
     <h2>Deploying to development</h2>

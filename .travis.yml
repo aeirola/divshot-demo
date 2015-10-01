@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+- '0.10'
+install: true
+script: echo Gruntifying really hard!
+deploy:
+  provider: divshot
+  api_key:
+    secure: Y0MnnvZwwjwa9UcU6zxCZodkIymne2dbn8mbbXzixjz7r7XKcSNi8yqj5xENbtPv7aRDoVjPlfVcaCG/EXoV/1ysExnfgK3NgVjtL7YLydzPVo1nPBNk/z/Qrxk0PTKkJ0YVHuHXvHxOkWP4zh0LH82MPHgxI441zs9f1enFMKilLY2aUlARPRWKX9KNZyaC/XIwfvDWrTCOwllcNqBvmznOtEgZV0QMc+wWr1Okr3idsMiDJNtHKcBjgCDrr0vQB+BKa3s+AAZ90giMpDCCCQFIop6MyjU6wmOhTgptqC2b2peXfizw2IMAloz+E2EUxguIf/aoIFEF991MUs7NRpHuUPPipuYcdtxZaHF0cDv6Z5YtAmW3bN3umqPfmIUQXUF6JuyM0BlUHqRzGvv0F9Irjk9Xzs6cxOprgQgBm9S0FVzELe3/Q+uAitybTO9w7iHIdbEeeA77YJOiaUlDP0fnYag8DBcIRa4YnAWm7JZYi3IRZev/CeZr0p2YUBE8vH0+snyZs9FY1X6OHBpa3rly5fFtPpA8usFVaoRfmN5hTWsHdiX+9IGwa1l0yNPnccvNsAby6H6YNy2ViBRbuYnAySSXLPNvYu3PuPub9R4FTXwn4xCkL9MFdO8GDa5nDmSy+++jIACRljw4e0L1az2vKFZ7rZ4A89Jk4DsHw7o=
+  environment:
+    master: development
+    staging: staging
+    production: production
+  on:
+    repo: aeirola/divshot-demo

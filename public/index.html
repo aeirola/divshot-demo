@@ -77,5 +77,30 @@
       open http://development.divshot-demo.divshot.io/
     </pre>
 
+
+    <h1>Cool features</h1>
+
+
+    <h2>Custom routing</h2>
+
+    <p>
+      You can point multiple paths to a single file, by specifying routes in <code>divshot.json</code>. This page only has a single file, so we can just route every url to the same file with:
+    </p>
+
+    <pre>
+      "routes": {
+        "/**": "index.html"
+      }
+    </pre>
+
+    <p>
+      So now a link to <a href="/no-way-this-page-exsists">/no-way-this-page-exsists</a> serves this same page.
+    </p>
+
+    <p>
+      Of course we could just have user <code>error.html</code> for this trick. For more info on custom routings check out <a href="https://docs.divshot.com/guides/routing">https://docs.divshot.com/guides/routing</a>.
+    </p>
+
+
   </body>
 </html>

@@ -18,7 +18,7 @@
     <div class="markdown-body">
 
       <section>
-        <h1>What is Divshot</h1>
+        <h1 id="divshot">What is Divshot</h1>
 
         <p>
           <a href="https://divshot.com/">Divshot</a> define themselves as "Static Web Hosting for Developers" with the tagline "Blazing fast CDN, simple CLI deployment, hassle-free test environments. And much more.". Personally I think of it as Heroku for static web apps.
@@ -54,7 +54,7 @@
 
 
       <section>
-        <h1>About this site</h1>
+        <h1 id="about">About this site</h1>
 
         <p>
           This site itself is hosted on Divshot, and provides some examples on the features provided by the service
@@ -75,7 +75,7 @@
 
 
       <section>
-        <h1>Setup</h1>
+        <h1 id="setup">Setup</h1>
 
         <h2>Tools and environment</h2>
 
@@ -169,7 +169,7 @@
 
       <section>
 
-        <h1>Deployment</h1>
+        <h1 id="deployment">Deployment</h1>
 
         <h2>Local development server</h2>
 
@@ -223,9 +223,9 @@
 
 
       <section>
-        <h1>Cool features</h1>
+        <h1 id="features">Cool features</h1>
 
-        <h2>Custom routing</h2>
+        <h2 id="routing">Custom routing</h2>
 
         <p>
           You can point multiple paths to a single file, by specifying routes in <code>divshot.json</code>. This page only has a single file, so we can just route every url to the same file with:
@@ -248,7 +248,7 @@
         </p>
 
 
-        <h2>AJAX Proxy</h2>
+        <h2 id="proxy">AJAX Proxy</h2>
 
         <p>
           Divshot provides a nice AJAX proxy for connection to public APIs that for some reason don't provide CORS headers. Configure your proxy address in <code>divshot.json</code> and connect to the proxy at the path <code>/__/proxy/{$NAME/{$PATH}</code>.
@@ -319,15 +319,35 @@
         </blockquote>
 
 
-        <h2>Email sending</h2>
+        <h2 id="email">Email sending</h2>
 
-        Divshot also provides an email sending service for simple contact forms and such.
+        Divshot also provides an email sending service for simple contact forms and such. Configuring a form element in <code>divshot.json</code>, the server will provide an endpoint at <code>/__/forms/{$NAME}</code>
 
         <p>
           <em><a href="https://docs.divshot.com/services/forms">Documentation</a></em>
         </p>
 
         <h3>Example</h3>
+
+        <p>
+          To just create a simple form that will send an email to me when submitted, we can just add this to the config file, and create a form below.
+        </p>
+
+        <pre><code class="language-json">
+          {
+            "forms": {
+              "contact": {
+                "to": "axel.eirola@futurice.com",
+                "from": "www-weeklies@futurice.com",
+                "subject": "Greetings from {{name}}",
+                "html": "&lt;b&gt;{{name}}:&lt;/b&gt; {{greetings}}",
+                "text": "{{name}} says {{greetings}}",
+                "success": "/contact-received#email",
+                "failure": "/contact-failure#email"
+              }
+            }
+          }
+        </code></pre>
 
         <blockquote>
           <form method="POST" action="/__/forms/contact">
@@ -352,11 +372,19 @@
         </code></pre>
 
 
-        <h2>Environment variables</h2>
+        <h2 id="variables">Environment variables</h2>
 
         <p>
           Divshot also supports environment variables which are injected through a JavaScript file served at <code>/__/env.js</code>. Alternatively, they are available as JSON at <code>/__/env.json</code>. These environment variables are user defined, and also contain build information. Could be useful for configuring API endpoints and such.
         </p>
+
+        <p>
+          Environment variables need to be specified using the <code>divshot</code> CLI tool. Not sure why they don't provide any web interface for this. Anyways, just add them with the following:
+        </p>
+
+        <pre><code class="language-bash">
+          divshot env:add production DEBUG=true
+        </code></pre>
 
         <p>
           <em><a href="https://docs.divshot.com/guides/environment-variables">Documentation</a></em>
@@ -397,7 +425,7 @@
 
 
       <section>
-        <h1>Techincal information</h1>
+        <h1 id="technical">Techincal information</h1>
 
         <h2>Hosting</h2>
 

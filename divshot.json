@@ -19,8 +19,8 @@
       "subject": "Greetings from {{name}}",
       "html": "<b>{{name}}:</b> {{greetings}}",
       "text": "{{name}} says {{greetings}}",
-      "success": "/contact-received",
-      "failure": "/contact-failure"
+      "success": "/contact-received#email",
+      "failure": "/contact-failure#email"
     }
   }
 }

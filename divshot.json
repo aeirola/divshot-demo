@@ -5,5 +5,11 @@
   "error_page": "error.html",
   "routes": {
     "/**": "index.html"
+  },
+  "proxy": {
+    "digitraffic": {
+      "origin":"http://tie.digitraffic.fi/",
+      "cookies": false
+    }
   }
 }

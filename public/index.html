@@ -78,6 +78,8 @@
     </pre>
 
 
+
+
     <h1>Cool features</h1>
 
 
@@ -100,6 +102,66 @@
     <p>
       Of course we could just have user <code>error.html</code> for this trick. For more info on custom routings check out <a href="https://docs.divshot.com/guides/routing">https://docs.divshot.com/guides/routing</a>.
     </p>
+
+
+    <h2>AJAX Proxy</h2>
+
+    <p>
+      Divshot provides a nice AJAX proxy for connection to public APIs that for some reason don't provide CORS headers. Configure your proxy address in <code>divshot.json</code> and connect to the proxy at the path <code>/__/proxy/{$NAME/{$PATH}</code>.
+    </p>
+
+    <p>
+      Note, if you want to run the proxy on your local dev server, you need to do
+    </p>
+
+    <pre>
+      npm install superstatic-proxy
+      divshot server --services proxy
+    </pre>
+
+    <h3>Example: Fetching data for road temperatures</h3>
+
+    <p>
+      Foreca provides some realtime data on road weather conditions through a public API at <code><a href="http://tie.digitraffic.fi/sujuvuus/ws/roadConditions">http://tie.digitraffic.fi/sujuvuus/ws/roadConditions</a></code>, unfortunately we can't connect to it directly from the browser, due to same-origin policy.
+    </p>
+
+    <p>
+      Adding the following proxy config to <code>divshot.json</code>, and we can access the API at <code><a href="/__/proxy/digitraffic/sujuvuus/ws/roadConditions">/__/proxy/digitraffic/sujuvuus/ws/roadConditions</a></code>
+    </p>
+
+    <pre>
+      "proxy": {
+        "digitraffic": {
+          "origin":"http://tie.digitraffic.fi/",
+          "cookies": false
+        }
+      }
+    </pre>
+
+    <p>
+      Thus, we can now do something as awesome as this:
+    </p>
+
+    <p>Road temperature somewhere is <span id="roadTempSpan"> ... </span></p>
+
+    <script type="text/javascript">
+      var apiUrl = 'http://tie.digitraffic.fi/sujuvuus/ws/roadConditions';
+      apiUrl = '/__/proxy/digitraffic/sujuvuus/ws/roadConditions';
+
+      httpRequest = new XMLHttpRequest();
+      httpRequest.onreadystatechange = function(event) {
+        if (httpRequest.readyState !== 4) {
+          return;
+        }
+
+        var response = event.target.responseXML;
+        var conditionElement = response.querySelector('observationElement conditionElement');
+        var roadTemp = conditionElement.getAttribute('roadTemperature');
+        document.getElementById('roadTempSpan').innerHTML = roadTemp;
+      };
+      httpRequest.open('GET', apiUrl);
+      httpRequest.send();
+    </script>
 
 
   </body>

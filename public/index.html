@@ -21,15 +21,15 @@
         <h1 id="divshot">What is Divshot</h1>
 
         <p>
-          <a href="https://divshot.com/">Divshot</a> define themselves as "Static Web Hosting for Developers" with the tagline "Blazing fast CDN, simple CLI deployment, hassle-free test environments. And much more.". Personally I think of it as Heroku for static web apps.
+          <a href="https://divshot.com/">Divshot</a> define themselves as "Static Web Hosting for Developers" with the tagline "Blazing fast CDN, simple CLI deployment, hassle-free test environments. And much more." Personally I think of it as Heroku for static web apps.
         </p>
 
         <h3>So why not GitHub pages / AWS S3 / whatever?</h3>
 
         <ul>
-          <li>Server side services such as AJAX proxy, email sending, seo prerender</li>
-          <li>Fast CDN, at lest compared to GitHub pages</li>
-          <li>Simple integration with TravisCI and others</li>
+          <li>Server side services such as AJAX proxy, email sending, <a href="https://prerender.io/">prerender</a> SEO</li>
+          <li>Fast CDN, at least compared to GitHub pages</li>
+          <li>Simple integration with Travis CI and others</li>
         </ul>
 
         <h3>So why not Heroku / Elastic Beanstalk / EC3?</h3>
@@ -80,7 +80,7 @@
         <h2>Tools and environment</h2>
 
         <p>
-          You'll want to install and authenticate the divshot CLI tool to easily push releases to production, or just run them locally.
+          You'll want to install and authenticate the divshot CLI tool to easily push releases to production, and for running local dev server.
         </p>
 
         <pre><code class="language-bash">
@@ -89,7 +89,7 @@
         </code></pre>
 
 
-        <h2>Repo setup</h2>
+        <h2>Project setup</h2>
 
         <h3>Configuring Divshot</h3>
 
@@ -102,7 +102,7 @@
         </code></pre>
 
         <p>
-          generates a file that looks like the following
+          generates a <code>divshot.json</code> file that looks like the following
         </p>
 
         <pre><code class="language-json">
@@ -135,7 +135,7 @@
         </code></pre>
 
         <p>
-          Get your dishot auth token (you logged in previously, right?), and feed that to the <code>travis</code> CLI tool, which will encrypt it for you.
+          Get your Divshot auth token (you logged in previously, right?), and feed that to the <code>travis</code> CLI tool, which will encrypt it for you.
         </p>
 
         <pre><code class="language-bash">
@@ -148,7 +148,7 @@
         </p>
 
         <p>
-          If you want per-branch environments, you can add the following to <code>.travis.yml</code>
+          If you want per-branch environment deployments, you can add the following to <code>.travis.yml</code>
         </p>
 
         <pre><code class="language-yaml">
@@ -179,7 +179,7 @@
         </code></pre>
 
         <p>
-          This runs a local development server with configuration taken from <code>divshot.json</code>, with routing working in the same way as in production.
+          This runs a local development server with configuration taken from <code>divshot.json</code>, with the same routing behaviour as on the hosted server.
         </p>
 
         <p>
@@ -202,7 +202,7 @@
         </code></pre>
 
         <p>
-          This only pushes files under the <code>root</code> directory defined in <code>divshot.json</code>, with additional excludes possible. So no need to worry about pushing large amounts of dependencies or temporary files to the server.
+          This only pushes files under the configured root directory defined in <code>divshot.json</code> (<code>/public</code> in our case), with additional excludes also possible. So no need to worry about pushing large amounts of dependencies or temporary files to the server.
         </p>
 
         <h3>Environments</h3>
@@ -240,11 +240,11 @@
         </code></pre>
 
         <p>
-          So now a link to <a href="/no-way-this-page-exsists">/no-way-this-page-exsists</a> serves this same page.
+          So now a link to <a href="/no-way-this-page-exsists#routing">/no-way-this-page-exsists</a> serves this same page. Of course we could just have used <code>error.html</code> for this trick as well.
         </p>
 
         <p>
-          Of course we could just have used <code>error.html</code> for this trick. For more info on custom routings check out <a href="https://docs.divshot.com/guides/routing">https://docs.divshot.com/guides/routing</a>.
+          <em><a href="https://docs.divshot.com/guides/routing">Documentation</a></em>
         </p>
 
 
@@ -255,7 +255,7 @@
         </p>
 
         <p>
-          Note, if you want to run the proxy on your local dev server, you need to do
+          <strong>Note:</strong> if you want to run the proxy on your local dev server, you need to do
         </p>
 
         <pre><code class="language-bash">
@@ -271,11 +271,11 @@
         <h3>Example: Fetching data for road temperatures</h3>
 
         <p>
-          Foreca provides some realtime data on road weather conditions through a public API at <code><a href="http://tie.digitraffic.fi/sujuvuus/ws/roadConditions">http://tie.digitraffic.fi/sujuvuus/ws/roadConditions</a></code>, unfortunately we can't connect to it directly from the browser, due to same-origin policy.
+          Foreca provides some realtime data on road weather conditions through a public API at <code><a href="http://tie.digitraffic.fi/sujuvuus/ws/roadConditions" target="_blank">http://tie.digitraffic.fi/sujuvuus/ws/roadConditions</a></code>, unfortunately we can't connect to it directly from the browser, due to same-origin policy restrictions.
         </p>
 
         <p>
-          Adding the following proxy config to <code>divshot.json</code>, and we can access the API at <code><a href="/__/proxy/digitraffic/sujuvuus/ws/roadConditions">/__/proxy/digitraffic/sujuvuus/ws/roadConditions</a></code>
+          Adding the following proxy config to <code>divshot.json</code>, and we can access the API at <code><a href="/__/proxy/digitraffic/sujuvuus/ws/roadConditions" target="_blank">/__/proxy/digitraffic/sujuvuus/ws/roadConditions</a></code>
         </p>
 
         <pre><code class="language-json">
@@ -324,13 +324,22 @@
         Divshot also provides an email sending service for simple contact forms and such. Configuring a form element in <code>divshot.json</code>, the server will provide an endpoint at <code>/__/forms/{$NAME}</code>
 
         <p>
+          <strong>Note:</strong> To use this on local development you need to specify the <code>--services forms</code> commandline argument. Combined with proxying, it looks like this:
+        </p>
+
+        <pre><code class="language-bash">
+          npm install superstatic-forms
+          divshot server --services proxy,forms
+        </code></pre>
+
+        <p>
           <em><a href="https://docs.divshot.com/services/forms">Documentation</a></em>
         </p>
 
-        <h3>Example</h3>
+        <h3>Example: Email sending form</h3>
 
         <p>
-          To just create a simple form that will send an email to me when submitted, we can just add this to the config file, and create a form below.
+          To just create a simple form that will send an email to me when submitted, we can just add this to the config file
         </p>
 
         <pre><code class="language-json">
@@ -349,6 +358,10 @@
           }
         </code></pre>
 
+        <p>
+          and create a form below that <code>POST</code>s to <code>/__/forms/contact</code>
+        </p>
+
         <blockquote>
           <form method="POST" action="/__/forms/contact">
             <dl>
@@ -361,15 +374,6 @@
             <button type="submit">Send</button>
           </form>
         </blockquote>
-
-        <p>
-          Note: To use this on local development you need to specify the <code>--services forms</code> commandline argument. Combined with proxying, it looks like this:
-        </p>
-
-        <pre><code class="language-bash">
-          npm install superstatic-forms
-          divshot server --services proxy,forms
-        </code></pre>
 
 
         <h2 id="variables">Environment variables</h2>
@@ -385,6 +389,10 @@
         <pre><code class="language-bash">
           divshot env:add production DEBUG=true
         </code></pre>
+
+        <p>
+          <strong>Note:</strong> All the environment variables are public information, and not in any way secret or enrypted as they are in Heroku or EBS.
+        </p>
 
         <p>
           <em><a href="https://docs.divshot.com/guides/environment-variables">Documentation</a></em>
@@ -430,14 +438,14 @@
         <h2>Hosting</h2>
 
         <p>
-          Currently Divshot apps are hosted on AWS <a href="http://aws.amazon.com/documentation/elastic-beanstalk/">Elastic Beanstalk</a> instances, with <a href="https://www.maxcdn.com/">MaxCDN</a> providing a CDN for all files.
+          Currently, Divshot apps are hosted on AWS <a href="http://aws.amazon.com/documentation/elastic-beanstalk/">Elastic Beanstalk</a> instances, with <a href="https://www.maxcdn.com/">MaxCDN</a> providing a global CDN for all files. The CDN is limited on free teir instances.
         </p>
 
 
         <h2>Server</h2>
 
         <p>
-          Divshot pages are served by <a href="http://superstatic.org/">superstatic</a>, which is a custom open source server for serving Divshot apps. Implemented in node.js using Express, providing basic features such as routing. Additional features are added as modular services, such as <a href="https://github.com/divshot/superstatic-proxy">ajax proxy</a> and <a href="https://github.com/divshot/superstatic-forms">email sending</a>.
+          Divshot pages are served by <a href="http://superstatic.org/">superstatic</a>, which is a custom open source server for serving Divshot apps. Implemented in node.js using Express, it provides static file hosting and basic routing features. Additional features are added as modular services, such as <a href="https://github.com/divshot/superstatic-proxy">ajax proxy</a> and <a href="https://github.com/divshot/superstatic-forms">email sending</a>.
         </p>
       </section>
 

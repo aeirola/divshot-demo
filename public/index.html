@@ -253,6 +253,44 @@
           npm install superstatic-forms
           divshot server --services proxy,forms
         </code></pre>
+
+
+        <h2><a href="https://docs.divshot.com/guides/environment-variables">Environment variables</a></h2>
+
+        <p>
+          Divshot also supports environment variables which are injected through a JavaScript file served at <code>/__/env.js</code>. Alternatively, they are available as JSON at <code>/__/env.json</code>. These environment variables are user defined, and also contain build information. Could be useful for configuring API endpoints and such.
+        </p>
+
+        <h3>Example</h3>
+
+        <blockquote>
+          <h4>
+            Build information:
+          </h4>
+
+          <dl>
+            <dt>ENV</dt>
+            <dd id="example3env"></dd>
+
+            <dt>build_id</dt>
+            <dd id="example3buildId"></dd>
+
+            <dt>release</dt>
+            <dd id="example3release"></dd>
+
+            <dt>timestamp</dt>
+            <dd id="example3timestamp"></dd>
+          </dl>
+
+          <script src="/__/env.js"></script>
+          <script type="text/javascript">
+            document.getElementById('example3env').innerHTML = window.__env.ENV;
+            document.getElementById('example3buildId').innerHTML = window.__env.__release.build_id;
+            document.getElementById('example3release').innerHTML = window.__env.__release.release;
+            document.getElementById('example3timestamp').innerHTML = window.__env.__release.timestamp;
+          </script>
+
+        </blockquote>
       </section>
 
 
